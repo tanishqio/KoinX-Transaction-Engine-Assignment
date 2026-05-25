@@ -46,7 +46,7 @@ const logger = winston.createLogger({
     ],
 })
 
-combinedTransport.on('rotate', (oldFile, newFile) => {
+combinedtransport.on('rotate', (oldFile, newFile) => {
     logger.info(`Log rotated: ${oldFile} → ${newFile}`)
 })
 
