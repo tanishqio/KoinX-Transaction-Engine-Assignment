@@ -4,6 +4,14 @@ A backend system that ingests cryptocurrency transaction data from two CSV sourc
 
 ---
 
+## Important Links
+
+- **GitHub Repository:** https://github.com/tanishqio/KoinX-Transaction-Engine-Assignment
+- **Assignment Video:** https://drive.google.com/file/d/1bvNWMvywCcHg0RV-xX29-2AE7Dpfwhnp/view?usp=drive_link
+- **Assignment Details & JD:** https://koinx.notion.site/Backend-Intern-Job-Description-2f2af3dd76f14160916a7785bad4be46
+- **Resume:** https://drive.google.com/file/d/1cDE1uXzG3QUnTiCcYFgFjPlOSHAeQgVs/view?usp=drive_link
+--- 
+
 ## Table of Contents
 
 - [Problem Statement](#problem-statement)
@@ -638,3 +646,5 @@ Things I'd change before this goes anywhere near real money:
 ---
 
 Built by [Tanishq Bhakar](https://github.com/tanishqio) as a backend assignment for KoinX.
+
+---
