@@ -1,15 +1,9 @@
-// src/routes/reconcile.js
-//
-// WHAT THIS FILE DOES:
+//working:
 // POST /reconcile
 //   reads both CSV files from /uploads folder
 //   runs ingestion pipeline on both files in parallel
 //   stores all rows in MongoDB with validation + normalization
 //   returns runId for fetching report later
-//
-// optional request body params:
-//   timestampToleranceSecs → overrides .env default
-//   quantityTolerancePct   → overrides .env default
 
 const express = require('express')
 const path = require('path')
@@ -32,9 +26,7 @@ router.post('/', async (req, res) => {
 
     try {
 
-        // ── READ TOLERANCE CONFIG ────────────────────────────────
         // request body overrides .env defaults
-        // this is what makes tolerances configurable per run
         const config = {
             timestampToleranceSecs:
                 req.body?.timestampToleranceSecs
@@ -51,35 +43,29 @@ router.post('/', async (req, res) => {
             `Reconciliation started | runId=${runId} | config=${JSON.stringify(config)}`
         )
 
-        // ── CREATE RUN RECORD ────────────────────────────────────
+        //run id creaion
         // created before ingestion starts
         // status = running so we know it is in progress
-        // if server crashes mid-run, status stays 'running'
-        // which tells us something went wrong
         await ReconciliationRun.create({
             runId,
             config,
             status: 'running',
         })
 
-        // ── INGEST BOTH FILES IN PARALLEL ────────────────────────
+    
         // Promise.all runs both ingestions at the same time
-        // faster than running one after the other
-        // both files are independent so parallel is safe
+
         const [userStats, exchangeStats] = await Promise.all([
             parseAndIngest(USER_FILE_PATH, 'user', runId),
             parseAndIngest(EXCHANGE_FILE_PATH, 'exchange', runId),
         ])
 
-        // ── UPDATE RUN WITH INGESTION COUNTS ─────────────────────
         await ReconciliationRun.findOneAndUpdate(
             { runId },
             {
                 'summary.totalUser': userStats.total,
                 'summary.totalExchange': exchangeStats.total,
                 'summary.invalidRows': userStats.invalid + exchangeStats.invalid,
-                // status stays 'running' until matching engine completes
-                // matching engine will update to 'complete'
             }
         )
 
@@ -113,13 +99,11 @@ return res.status(200).json({
     } catch (err) {
         logger.error(`Reconciliation failed | runId=${runId} | error=${err.message}`)
 
-        // mark run as failed so client knows something went wrong
         await ReconciliationRun.findOneAndUpdate(
             { runId },
             { status: 'failed', errorMessage: err.message, completedAt: new Date() }
         ).catch(() => { })
-        // .catch(() => {}) prevents double error if DB itself is down
-
+        
         return res.status(500).json({
             success: false,
             message: err.message,

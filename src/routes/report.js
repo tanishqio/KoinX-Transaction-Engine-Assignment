@@ -1,5 +1,3 @@
-// src/routes/report.js
-
 const express           = require('express')
 const router            = express.Router()
 const ReportEntry       = require('../models/ReportEntry')
@@ -8,10 +6,10 @@ const { buildReportRow, CSV_COLUMNS } = require('../services/reconciliation/csvR
 const logger            = require('../config/logger')
 
 
-// ── HELPER — validate run exists and is complete ──────────────
+// HELPER used for validate run exists and is complete 
 // used by all three routes below
 // returns the run document if valid
-// sends the error response itself and returns null if not
+
 
 const validateRun = async (runId, res) => {
   const run = await ReconciliationRun.findOne({ runId }).lean()
@@ -36,9 +34,8 @@ const validateRun = async (runId, res) => {
 }
 
 
-// ── GET /report/:runId/summary ────────────────────────────────
-// reads counts directly from ReconciliationRun — one document lookup
-// no ReportEntry queries needed — counts are pre-stored when run completes
+//GET /report/:runId/summary 
+//reads counts directly from ReconciliationRun — one document lookup
 
 router.get('/:runId/summary', async (req, res) => {
   const { runId } = req.params
@@ -75,14 +72,9 @@ router.get('/:runId/summary', async (req, res) => {
 })
 
 
-// ── GET /report/:runId/unmatched ──────────────────────────────
-// returns only unmatched entries, paginated
-//
-// optional query params:
-//   ?source=user       → only UNMATCHED_USER
-//   ?source=exchange   → only UNMATCHED_EXCHANGE
-//   ?page=1            → page number, default 1
-//   ?limit=50          → rows per page, default 50, max 200
+//GET /report/:runId/unmatched 
+//returns only unmatched entries, paginated
+
 
 router.get('/:runId/unmatched', async (req, res) => {
   const { runId } = req.params
@@ -146,10 +138,8 @@ router.get('/:runId/unmatched', async (req, res) => {
 })
 
 
-// ── GET /report/:runId ────────────────────────────────────────
-// streams full report as CSV download
-// order: EXACT_MATCH → MATCHED → CONFLICTING → UNMATCHED_USER → UNMATCHED_EXCHANGE
-// processes in batches of 500 — memory stays flat regardless of size
+//GET /report/:runId 
+//streams full report as CSV download
 
 const rowToCsvLine = (row) => {
   return CSV_COLUMNS
