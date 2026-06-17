@@ -597,8 +597,6 @@ All tolerances can also be overridden per-run via the request body on `POST /rec
 
 ## Production Improvements
 
-Things I'd change before this goes anywhere near real money:
-
 - **File upload endpoint** — accept multipart form data instead of reading from disk
 - **Job queue** — move reconciliation to a Bull/BullMQ worker. Return `202 Accepted` with a `runId`, let the client poll `GET /report/:runId/summary` for status
 - **Cursor-based loading** — stream transactions from MongoDB instead of `.find().lean()` to handle arbitrarily large datasets
