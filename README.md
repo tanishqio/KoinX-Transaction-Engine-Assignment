@@ -1,14 +1,11 @@
 # Crypto Transaction Reconciliation Engine
 
-A backend system that ingests cryptocurrency transaction data from two CSV sources (user-reported and exchange-reported), normalizes and validates every row, runs a tolerance-based matching engine to reconcile them, and produces a detailed discrepancy report. Built as a take-home assignment for **KoinX**.
+A backend system that ingests cryptocurrency transaction data from two CSV sources (user-reported and exchange-reported), normalizes and validates every row, runs a tolerance-based matching engine to reconcile them, and produces a detailed discrepancy report.
 
 ---
 
 ## Important Links
-
-- **GitHub Repository:** https://github.com/tanishqio/KoinX-Transaction-Engine-Assignment
-- **Assignment Video:** https://drive.google.com/file/d/1bvNWMvywCcHg0RV-xX29-2AE7Dpfwhnp/view?usp=drive_link
-- **Assignment Details & JD:** https://koinx.notion.site/Backend-Intern-Job-Description-2f2af3dd76f14160916a7785bad4be46
+- **Explaination Video:** https://drive.google.com/file/d/1bvNWMvywCcHg0RV-xX29-2AE7Dpfwhnp/view?usp=drive_link
 - **Resume:** https://drive.google.com/file/d/1cDE1uXzG3QUnTiCcYFgFjPlOSHAeQgVs/view?usp=drive_link
 --- 
 
@@ -645,6 +642,6 @@ Things I'd change before this goes anywhere near real money:
 
 ---
 
-Built by [Tanishq Bhakar](https://github.com/tanishqio) as a backend assignment for KoinX.
+Built by [Tanishq Bhakar](https://github.com/tanishqio)!
 
 ---
